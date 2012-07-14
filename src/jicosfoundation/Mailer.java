@@ -1,6 +1,6 @@
 /* ************************************************************************* *
  *                                                                           *
- *        Copyright (c) 2004 Peter Cappello  <cappello@cs.ucsb.edu>          *
+ *        Copyright (c) 2012 Peter Cappello  <cappello@cs.ucsb.edu>          *
  *                                                                           *
  *    Permission is hereby granted, free of charge, to any person obtaining  *
  *  a copy of this software and associated documentation files (the          *
@@ -96,22 +96,17 @@ public class Mailer extends Processor
         {
             toAddress.receiveCommands ( fromAddress, commandQCopy );
         }
-        catch ( RemoteException exception ) 
+        catch ( Exception exception ) 
         {
-//            System.out.println( "Mail: toAddress: " + toAddress + "\n Command Q: \n");
-//            for ( Iterator iterator = commandQCopy.iterator(); iterator.hasNext(); )
-//            {
-//                System.out.println( ((Command) iterator.next()) );
-//            }
-//            exception.printStackTrace();
+            exception.printStackTrace();
+            System.out.println( "Mail: toAddress: " + toAddress + "\n Command Q: \n");
+            for ( Iterator iterator = commandQCopy.iterator(); iterator.hasNext(); )
+            {
+                System.out.println( ((Command) iterator.next()) );
+            }
 //            System.exit( 1 ); // !! modify when jPregel becomes fault-tolerant
             myProxy.evict();
-      
             //remoteExceptionHandler.handle ( exception, fromAddress, toAddress );         
-        }
-        catch ( Exception exception )
-        {
-            
         }
     }
     

@@ -1,6 +1,6 @@
 /* ************************************************************************* *
  *                                                                           *
- *        Copyright (c) 2004 Peter Cappello  <cappello@cs.ucsb.edu>          *
+ *        Copyright (c) 2012 Peter Cappello  <cappello@cs.ucsb.edu>          *
  *                                                                           *
  *    Permission is hereby granted, free of charge, to any person obtaining  *
  *  a copy of this software and associated documentation files (the          *
@@ -53,7 +53,7 @@ public interface Administrable extends Remote
     /**
      * Get any children.
      * 
-     * @return  An array of administrable instances, or null if none.
+     * @return  An array of administrable instances or null, if none.
      */
     //public Administrable[]  getChildren();
     
