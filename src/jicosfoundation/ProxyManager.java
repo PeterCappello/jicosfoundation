@@ -29,8 +29,8 @@
  * Service's Proxy. If there is no such Proxy, it sends the Command List to
  * the visitorProxy.
  *
- * ProxyManager can and should be constructed with an initialCapacity &
- * loadFactor (see Hashtable).
+ * ProxyManager can and should be constructed with an initialCapacity,
+ * loadFactor, and concurrencyLevel (see ConcurrentHashMap).
  *
  * @author  Peter Cappello
  */
@@ -38,10 +38,16 @@
 package jicosfoundation;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
-public class ProxyManager extends Hashtable 
+public class ProxyManager extends ConcurrentHashMap<Service,Proxy> 
+//public class ProxyManager extends Hashtable<Service,Proxy> 
 {        
+    public ProxyManager(int capacity, float loadFactor,int concurrencyLevel) {
+        super(capacity,loadFactor,concurrencyLevel);
+    }
+    
     // !! eliminate
     public void addProxy( ServiceName serviceName, Proxy proxy )
     {
@@ -60,14 +66,14 @@ public class ProxyManager extends Hashtable
     public Proxy getProxy( Service service )
     {
         assert service != null;
-        return (Proxy) get( service );
+        return get( service );
     }
         
-    public synchronized Proxy removeProxy( Service service ) 
+    public Proxy removeProxy( Service service ) 
     { 
         assert service != null;
         
-        return (Proxy) remove( service ); 
+        return remove( service ); 
     }
     
     /** Some Command objects are sent to all Proxy objects, not just a single 
@@ -77,9 +83,9 @@ public class ProxyManager extends Hashtable
     {
         assert command != null;
  
-        for ( Iterator i = values().iterator(); i.hasNext(); )
+        for ( Iterator<Proxy> i = values().iterator(); i.hasNext(); )
         {
-            Proxy proxy = (Proxy) i.next();
+            Proxy proxy =  i.next();
             Service toService = proxy.remoteService();
             if ( fromService == null || ! fromService.equals( toService ) )
             {

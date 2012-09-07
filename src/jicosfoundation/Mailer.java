@@ -32,16 +32,16 @@
 
 package jicosfoundation;
 
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class Mailer extends Processor
 {
     private Service fromAddress;
     private Service toAddress;   // the destination of this Mail
-    private List<Command> commandQ = new LinkedList<Command>();
+    private Queue<Command> commandQ = new ConcurrentLinkedQueue<Command>();
     private BlockingQueue<Mailer> mailQ; // queue of references to this.
     private RemoteExceptionHandler remoteExceptionHandler;
     private Proxy myProxy;
@@ -64,7 +64,7 @@ public class Mailer extends Processor
     /** Add a Command to the list.
      * @param command The Command object to be added.
      */    
-    public synchronized void add( Command command )
+    public void add( Command command )
     { 
         assert command != null;
         
@@ -76,10 +76,10 @@ public class Mailer extends Processor
         catch ( Exception e ) { e.printStackTrace(); }
     }
     
-    private synchronized final List copyCommandQ() 
+    private synchronized final Queue copyCommandQ() 
     {
-        List<Command> commandQCopy = commandQ;
-        commandQ = new LinkedList<Command>();
+        Queue<Command> commandQCopy = commandQ;
+        commandQ = new ConcurrentLinkedQueue<Command>();
         return commandQCopy;
     }
     
@@ -91,7 +91,7 @@ public class Mailer extends Processor
         {
             return;
         }
-        List commandQCopy = copyCommandQ();
+        Queue commandQCopy = copyCommandQ();
         try
         {
             toAddress.receiveCommands ( fromAddress, commandQCopy );

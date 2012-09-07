@@ -28,9 +28,7 @@
  *
  * @version 1.0
  * @author  Peter Cappello
- */
-
-/*
+ * 
  * Contributor(s) & tester(s): Peter Cappello 
  * 
  * Test Platform(s): 

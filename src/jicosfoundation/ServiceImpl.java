@@ -41,12 +41,10 @@
 
 package jicosfoundation;
 
-import static java.lang.System.out;
+import java.io.*;
 import java.rmi.*;
 import java.rmi.server.*;
 import java.util.*;
-import java.io.*;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 abstract public class ServiceImpl extends UnicastRemoteObject 
@@ -61,8 +59,9 @@ abstract public class ServiceImpl extends UnicastRemoteObject
     private ServiceName serviceName;
     private Department[] departments; 
     private Class2Int command2Department;
-    private ProxyManager proxyManager = new ProxyManager();
-    private BlockingQueue readyMailQ = new LinkedBlockingQueue();
+    private ProxyManager proxyManager = new ProxyManager( 100, 0.75f, 1 );
+//    private ProxyManager proxyManager = new ProxyManager();
+//    private BlockingQueue readyMailQ = new LinkedBlockingQueue();
     private Set registry = Collections.synchronizedSet( new HashSet() );
     
     /** Constructor.
@@ -171,16 +170,15 @@ abstract public class ServiceImpl extends UnicastRemoteObject
         return proxyManager.getProxy( service );
     }
     
-    private void processCommands( List q ) throws Exception
+    private void processCommands( Queue<Command> q) throws Exception
     {          
-        int department$ = 0;
-        
-        for ( Iterator i = q.iterator(); i.hasNext(); )
+        int department$ = 0;       
+        for ( Iterator<Command> i = q.iterator(); i.hasNext(); )
         {
-            Command command =  (Command) i.next();
+            Command command = i.next();
             if ( command instanceof CommandList )
             {
-                List queue = ((CommandList) command).q();
+                Queue queue = ((CommandList) command).q();
                 processCommands ( queue );
             }
             else
@@ -191,8 +189,7 @@ abstract public class ServiceImpl extends UnicastRemoteObject
                 }
                 catch ( IllegalArgumentException e )
                 {
-                    System.err.println("Unmapped Command: " + command.getClass() 
-                                             + " for " + myService.getClass() );
+                    System.err.println("Unmapped Command: " + command.getClass() + " for " + myService.getClass() );
                     System.exit(1);
                 }
                 if ( department$ == ASAP_DEPARTMENT_NUM ) 
@@ -213,7 +210,8 @@ abstract public class ServiceImpl extends UnicastRemoteObject
      * It is internal to the foundation package. See the Service interface.
      * @param marshalledCommandQ See the Service interface.
      */    
-    public final void receiveCommands ( Service sender, List commandQ )
+    @Override
+    public final void receiveCommands ( Service sender, Queue commandQ)
     {
         assert sender != null;
         assert commandQ != null;

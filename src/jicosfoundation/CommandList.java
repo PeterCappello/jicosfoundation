@@ -45,7 +45,7 @@ import java.util.*;
 
 public final class CommandList implements Command 
 {
-    private List q = new LinkedList();
+    private Queue q = new LinkedList();
     
     /** add a Command object to the list.
      * @param command The Command object to be added to the list.
@@ -58,7 +58,7 @@ public final class CommandList implements Command
         q.add ( command ); 
     }
     
-    final List q() { return q; }
+    final Queue q() { return q; }
     
     public void execute( Proxy proxy ) //throws Exception 
     { proxy.sendCommand( this ); }

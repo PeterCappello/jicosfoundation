@@ -221,12 +221,10 @@ public abstract class Proxy extends Thread
             
             synchronized ( this )
             {
-                remainingTime = expirationTime - System.currentTimeMillis();
-                
+                remainingTime = expirationTime - System.currentTimeMillis();           
                 if ( remainingTime < 0 && ! offerRenewal() )
                 {
-                    System.out.println("Proxy.run: about to invoke evict. remainingTime: " 
-                            + remainingTime );
+                    System.out.println("Proxy.run: about to invoke evict. remainingTime: " + remainingTime );
                     evict();
                     return; // kill thread
                 }

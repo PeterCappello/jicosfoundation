@@ -34,10 +34,8 @@ import java.util.concurrent.BlockingQueue;
 
 final class CommandProcessor<S extends ServiceImpl> extends Processor<Command> 
 {
-//    private ServiceImpl myService;
     private S myService;
     
-//    CommandProcessor( BlockingQueue q, ServiceImpl myService ) 
     CommandProcessor( BlockingQueue q, S myService ) 
     {        
         super( q );
@@ -50,7 +48,6 @@ final class CommandProcessor<S extends ServiceImpl> extends Processor<Command>
 
     void process( Command command ) 
     { 
-//        Command command = (Command) object;
         try
         {
             command.execute( myService ); 
