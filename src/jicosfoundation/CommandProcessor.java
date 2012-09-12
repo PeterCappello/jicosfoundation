@@ -38,11 +38,9 @@ final class CommandProcessor<S extends ServiceImpl> extends Processor<Command>
     
     CommandProcessor( BlockingQueue q, S myService ) 
     {        
-        super( q );
-        
+        super( q );        
         assert q != null;
-        assert myService != null;
-        
+        assert myService != null;        
         this.myService = myService;
     }
 
@@ -55,6 +53,7 @@ final class CommandProcessor<S extends ServiceImpl> extends Processor<Command>
         catch ( Exception exception )
         {
             myService.exceptionHandler( exception );
+            System.exit( 1 ); // modify when jpregel becomes fault-tolerant
         }
     }
 }

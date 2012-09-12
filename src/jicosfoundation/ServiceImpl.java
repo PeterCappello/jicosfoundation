@@ -89,8 +89,7 @@ abstract public class ServiceImpl extends UnicastRemoteObject
     protected synchronized final Mailer addMail( Proxy myProxy,
                                  RemoteExceptionHandler remoteExceptionHandler ) 
     {
-        assert remoteExceptionHandler != null;
-        
+        assert remoteExceptionHandler != null;        
         return new Mailer( this, remoteExceptionHandler, new LinkedBlockingQueue(), myProxy );
     }
     
@@ -98,23 +97,20 @@ abstract public class ServiceImpl extends UnicastRemoteObject
     public final void addProxy( ServiceName serviceName, Proxy proxy ) 
     { 
         assert serviceName != null;
-        assert proxy != null;
-        
+        assert proxy != null;       
         proxyManager.addProxy( serviceName, proxy ); 
     }
     
     public final void addProxy( Service service, Proxy proxy ) 
     { 
         assert service != null;
-        assert proxy   != null;
-        
+        assert proxy   != null;       
         proxyManager.addProxy( service, proxy ); 
     }
     
     public void broadcast( Command command, Service fromService )
     {
-        assert command != null;
-        
+        assert command != null;        
         for ( Iterator i = proxyManager.values().iterator(); i.hasNext(); )
         {
             Proxy proxy = (Proxy) i.next();
@@ -127,10 +123,8 @@ abstract public class ServiceImpl extends UnicastRemoteObject
     
     public void broadcast( Command command, Service fromService, Collection proxies )
     {
-        // pre-condition
         assert command != null;
-        assert proxies != null;
-        
+        assert proxies != null;       
         for ( Iterator i = proxies.iterator(); i.hasNext(); )
         {
             Proxy proxy = (Proxy) i.next();
@@ -165,8 +159,7 @@ abstract public class ServiceImpl extends UnicastRemoteObject
     
     public Proxy getProxy( Service service )
     {
-        assert service != null;
-        
+        assert service != null;        
         return proxyManager.getProxy( service );
     }
     
@@ -265,8 +258,7 @@ abstract public class ServiceImpl extends UnicastRemoteObject
      */    
     protected void setService ( ServiceImpl myService ) 
     {
-        assert myService != null;
-        
+        assert myService != null;       
         this.myService = myService; 
     }
     

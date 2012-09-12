@@ -130,8 +130,7 @@ public abstract class Proxy extends Thread
     
     public void containingServiceImpl( ServiceImpl containingServiceImpl )
     {
-        assert containingServiceImpl != null;
-        
+        assert containingServiceImpl != null;        
         this.containingServiceImpl = containingServiceImpl;
     }
     
@@ -140,13 +139,8 @@ public abstract class Proxy extends Thread
     public Object execute( CommandSynchronous command,
                            RemoteExceptionHandler remoteExceptionHandler )
     {
-        System.out.println("Proxy about to execute.");
         assert remoteExceptionHandler != null;
-        
-//        return command.execute( this, remoteExceptionHandler );
-        Object obj = command.execute( this, remoteExceptionHandler );
-        System.out.println("Proxy.execute.returned value: " + obj);
-        return obj;
+        return command.execute( this, remoteExceptionHandler );
     }
     
     public void execute( Command command ) { command.execute( this ); }
@@ -164,8 +158,7 @@ public abstract class Proxy extends Thread
             // internal Host: Ignore
             renew();
             return true;
-        }
-        
+        }        
 	try 
         {
             remoteService.executeCommand(containingServiceImpl, PING);
@@ -190,8 +183,7 @@ public abstract class Proxy extends Thread
     
     public void remoteExceptionHandler( RemoteExceptionHandler remoteExceptionHandler )
     {
-        assert remoteExceptionHandler != null;
-        
+        assert remoteExceptionHandler != null;        
         this.remoteExceptionHandler = remoteExceptionHandler;
     }
     
@@ -234,8 +226,7 @@ public abstract class Proxy extends Thread
     
     public void sendCommand( Command command )
     { 
-        assert command != null;
-        
+        assert command != null;        
         if ( anInternalService )
         {
             try
@@ -255,8 +246,7 @@ public abstract class Proxy extends Thread
     
     public void setTerm( long term ) 
     {
-        assert term > 0;
-        
+        assert term > 0;        
         this.term = term; 
     }
     

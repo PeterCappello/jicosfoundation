@@ -68,8 +68,7 @@ public final class Department
      */    
     public void addCommand ( Command command )
     { 
-        assert command != null;
-        
+        assert command != null;       
         q.add( command ); 
     }
     
@@ -80,8 +79,7 @@ public final class Department
     
     public void addProcessors( int $processors )
     {
-        assert $processors >= 0;
-        
+        assert $processors >= 0;       
         for ( int i = 0; i < $processors; i++ )
         {
             addProcessor();
@@ -90,8 +88,7 @@ public final class Department
     
     public void removeProcessor()
     {
-        assert commandProcessors.size() > 0;
-        
+        assert commandProcessors.size() > 0;        
         commandProcessors.removeElementAt( commandProcessors.size() - 1 );
     }
     

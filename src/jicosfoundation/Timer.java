@@ -26,7 +26,7 @@
  * Timer.java
  *
  * I would prefer for this class to extend Thread. But, I want to ensure that
- * operations on it are synchronized. Wrapping the TreeMap is a synchronizer,
+ * operations on it are synchronized. Wrapping the TreeMap in a synchronizer,
  * such as
  *
  *  Map map = Collections.synchronizedMap( new TreeMap() );

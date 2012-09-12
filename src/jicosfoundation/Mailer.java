@@ -104,8 +104,8 @@ public class Mailer extends Processor
             {
                 System.out.println( ((Command) iterator.next()) );
             }
-//            System.exit( 1 ); // !! modify when jPregel becomes fault-tolerant
             myProxy.evict();
+            System.exit( 1 ); // !! modify when jPregel becomes fault-tolerant
             //remoteExceptionHandler.handle ( exception, fromAddress, toAddress );         
         }
     }

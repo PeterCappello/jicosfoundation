@@ -44,15 +44,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ProxyManager extends ConcurrentHashMap<Service,Proxy> 
 //public class ProxyManager extends Hashtable<Service,Proxy> 
 {        
-    public ProxyManager(int capacity, float loadFactor,int concurrencyLevel) {
+    public ProxyManager(int capacity, float loadFactor,int concurrencyLevel) 
+    {
         super(capacity,loadFactor,concurrencyLevel);
     }
     
     // !! eliminate
     public void addProxy( ServiceName serviceName, Proxy proxy )
     {
-        assert proxy != null;
-        
+        assert proxy != null;        
         put( serviceName.service(), proxy );
     }
     
@@ -71,8 +71,7 @@ public class ProxyManager extends ConcurrentHashMap<Service,Proxy>
         
     public Proxy removeProxy( Service service ) 
     { 
-        assert service != null;
-        
+        assert service != null;        
         return remove( service ); 
     }
     
@@ -82,7 +81,6 @@ public class ProxyManager extends ConcurrentHashMap<Service,Proxy>
     public void broadcast( Command command, Service fromService )
     {
         assert command != null;
- 
         for ( Iterator<Proxy> i = values().iterator(); i.hasNext(); )
         {
             Proxy proxy =  i.next();
