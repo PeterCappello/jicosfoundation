@@ -152,6 +152,7 @@ abstract public class ServiceImpl extends UnicastRemoteObject
      * @return the object that is returned by the Command's execute method. 
      * This depends on the actual Command type.
      */    
+    @Override
     public final Object executeCommand( Service sender, CommandSynchronous command ) 
     {
         return command.execute( myService );

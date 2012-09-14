@@ -68,7 +68,7 @@ public class Mailer extends Processor
     { 
         assert command != null;
         
-        commandQ.add( command );
+        synchronized (this) { commandQ.add( command ); }
         try
         {
             mailQ.add( this ); // notify mail processor: send commandQ
@@ -76,15 +76,17 @@ public class Mailer extends Processor
         catch ( Exception e ) { e.printStackTrace(); }
     }
     
-    private synchronized final Queue copyCommandQ() 
+    private synchronized Queue copyCommandQ() 
     {
         Queue<Command> commandQCopy = commandQ;
         commandQ = new ConcurrentLinkedQueue<Command>();
         return commandQCopy;
     }
     
-    /* mail command queue to desstination distributed component
+    /**
+     * Mail command queue to destination distributed component
      */
+    @Override
     void process( Object object ) 
     {
         if ( commandQ.isEmpty() )
