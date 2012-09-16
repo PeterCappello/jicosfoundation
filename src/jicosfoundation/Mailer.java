@@ -42,6 +42,7 @@ public class Mailer extends Processor
     private Service fromAddress;
     private Service toAddress;   // the destination of this Mail
     private Queue<Command> commandQ = new ConcurrentLinkedQueue<Command>();
+    private Boolean commandQLock = true;
     private BlockingQueue<Mailer> mailQ; // queue of references to this.
     private RemoteExceptionHandler remoteExceptionHandler;
     private Proxy myProxy;
@@ -68,7 +69,8 @@ public class Mailer extends Processor
     { 
         assert command != null;
         
-        synchronized (this) { commandQ.add( command ); }
+        // synchronization is necessary to ensure add completes before copyCommandQ makes commandQ garbage.
+        synchronized (commandQLock) { commandQ.add( command ); }
         try
         {
             mailQ.add( this ); // notify mail processor: send commandQ
@@ -76,11 +78,14 @@ public class Mailer extends Processor
         catch ( Exception e ) { e.printStackTrace(); }
     }
     
-    private synchronized Queue copyCommandQ() 
+    private Queue copyCommandQ() 
     {
-        Queue<Command> commandQCopy = commandQ;
-        commandQ = new ConcurrentLinkedQueue<Command>();
-        return commandQCopy;
+        synchronized( commandQLock )
+        {
+            Queue<Command> commandQCopy = commandQ;
+            commandQ = new ConcurrentLinkedQueue<Command>();
+            return commandQCopy;
+        }
     }
     
     /**
